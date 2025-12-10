@@ -33,7 +33,7 @@ resource "aws_instance" "web_server" {
 
   provisioner "local-exec" {
   # Change the path below to match your Git installation location
-  interpreter = ["C:\\Program Files\\Git\\bin\\bash.exe", "-c"]
+  #interpreter = ["C:\\Program Files\\Git\\bin\\bash.exe", "-c"]
   
   # Your Bash command
   command     = "printf '\\n${self.public_ip}' >> aws_hosts"
@@ -41,21 +41,21 @@ resource "aws_instance" "web_server" {
 
   provisioner "local-exec" {
     when    = destroy
-    interpreter = ["C:\\Program Files\\Git\\bin\\bash.exe", "-c"]
+    #interpreter = ["C:\\Program Files\\Git\\bin\\bash.exe", "-c"]
     command = "sed -i '/^[0-9]/d' aws_hosts"
   }
 
   vpc_security_group_ids = [aws_security_group.project_sg.id]
 }
 
-locals {
-  # 1. The original Windows path provided (using forward slashes)
-  windows_key_path = var.private_key_path
+# locals {
+#   # 1. The original Windows path provided (using forward slashes)
+#   windows_key_path = var.private_key_path
   
-  # 2. Convert to the WSL path
-  # We search for "C:" and replace it with "/mnt/c"
-  wsl_key_path = replace(local.windows_key_path, "C:/Users/utki_", "~")
-}
+#   # 2. Convert to the WSL path
+#   # We search for "C:" and replace it with "/mnt/c"
+#   wsl_key_path = replace(local.windows_key_path, "C:/Users/utki_", "~")
+# }
 
 resource "null_resource" "grafana_provisioner" {
   
@@ -81,9 +81,9 @@ resource "null_resource" "grafana_provisioner" {
   # 3. Local-Exec (Ansible Call): Runs ONLY after the SSH wait succeeds.
   provisioner "local-exec" {
     # 🚨 USE WSL INTERPRETER 🚨
-    interpreter = ["wsl", "bash", "-c"] 
+    #interpreter = ["wsl", "bash", "-c"] 
 
     # The Ansible command using the aws_hosts file and your private key
-    command = "ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --private-key ./id_rsa_project_demo playbooks/grafana.yml"
+    command = "ansible-playbook --private-key ${var.private_key_path} playbooks/grafana.yml"
   }
 }
