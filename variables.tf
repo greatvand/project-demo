@@ -31,11 +31,11 @@ variable "key_name" {
 variable "public_key_path" {
   description = "The path to the public key file for SSH access"
   type        = string
-  default     = "/home/utkarsh/.ssh/id_rsa_project_demo.pub"
+  default     = "~/.ssh/id_rsa_project_demo.pub"
 }
 
 variable "private_key_path" {
   description = "The path to the private key file for SSH access"
   type        = string
-  default     = "/home/utkarsh/.ssh/id_rsa_project_demo"
+  default     = "~/.ssh/id_rsa_project_demo"
 }
