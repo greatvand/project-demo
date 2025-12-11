@@ -12,7 +12,7 @@ pipeline {
       steps {
         sh 'export TF_IN_AUTOMATION=true'
         sh 'terraform plan -no-color'
-        #Test
+        
       }
     }
   }
