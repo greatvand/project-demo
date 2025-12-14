@@ -30,7 +30,7 @@ pipeline {
                     echo "Provisioned Instance IP: ${env.INSTANCE_IP}"
                     echo "Provisioned Instance ID: ${env.INSTANCE_ID}"
                     
-                    // 3. Create a dynamic inventory file for Ansible
+                    // 3. Create a dynamic inventory file for Ansible 
                     sh "echo '${env.INSTANCE_IP}' > dynamic_inventory.ini"
                 }
             }
