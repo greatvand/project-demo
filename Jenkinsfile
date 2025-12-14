@@ -15,7 +15,7 @@ pipeline {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
 
-                    // 1. Extract Public IP Address
+                    // 1. Extract Public IP Address of the provisioned instance
                     env.INSTANCE_IP = sh(
                         script: 'terraform output -raw instance_public_ip', 
                         returnStdout: true
