@@ -23,7 +23,7 @@ variable "main_instance_count" {
 }
 
 variable "key_name" {
-  description = "The name of the key pair to use for SSH access"
+  description = "The name of the key isdeepak pair to use for SSH access"
   type        = string
   default     = "fullstack-cicd"
 }
