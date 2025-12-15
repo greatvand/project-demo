@@ -4,8 +4,8 @@ pipeline {
     environment {
         TF_IN_AUTOMATION = 'true'
         TF_CLI_ARGS = '-no-color'
-        SSH_CRED_ID = 'aws-deployer-ssh-key' 
-        TF_CLI_CONFIG_FILE = credentials('aws-creds')
+        SSH_CRED_ID = 'ec2-ssh-key' 
+        TF_CLI_CONFIG_FILE = credentials('aws-credentials')
     }
 
     stages {
