@@ -12,17 +12,17 @@ pipeline {
         stage('Terraform Provisioning') {
             steps {
                 script {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                    bat 'terraform init'
+                    bat 'terraform apply -auto-approve'
 
                     // 1. Extract Public IP Address of the provisioned instance
-                    env.INSTANCE_IP = sh(
+                    env.INSTANCE_IP = bat(
                         script: 'terraform output -raw instance_public_ip', 
                         returnStdout: true
                     ).trim()
                     
                     // 2. Extract Instance ID (for AWS CLI wait) 
-                    env.INSTANCE_ID = sh(
+                    env.INSTANCE_ID = bat(
                         script: 'terraform output -raw instance_id', 
                         returnStdout: true
                     ).trim()
@@ -31,7 +31,7 @@ pipeline {
                     echo "Provisioned Instance ID: ${env.INSTANCE_ID}"
                     
                     // 3. Create a dynamic inventory file for Ansible 
-                    sh "echo '${env.INSTANCE_IP}' > dynamic_inventory.ini"
+                    bat "echo '${env.INSTANCE_IP}' > dynamic_inventory.ini"
                 }
             }
         }
@@ -42,7 +42,7 @@ pipeline {
                 
                 // --- This is the simple, powerful AWS CLI command ---
                 // It polls AWS until status checks pass or it hits the default timeout (usually 15 minutes)
-                sh "aws ec2 wait instance-status-ok --instance-ids ${env.INSTANCE_ID} --region us-east-2"  
+                bat "aws ec2 wait instance-status-ok --instance-ids ${env.INSTANCE_ID} --region us-east-2"  
                 
                 echo 'AWS instance health checks passed. Proceeding to Ansible.'
             }
@@ -62,7 +62,7 @@ pipeline {
     
     post {
         always {
-            sh 'rm -f dynamic_inventory.ini'
+            bat 'rm -f dynamic_inventory.ini'
         }
     }
 }
