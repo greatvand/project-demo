@@ -17,7 +17,7 @@ variable "instance_type" {
 }
 
 variable "main_instance_count" {
-  description = "Number of main is my name instances to launch"
+  description = "Number of main  instances to launch"
   type        = number
   default     = 1
 }
