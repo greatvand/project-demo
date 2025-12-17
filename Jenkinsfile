@@ -6,18 +6,19 @@ pipeline {
         TF_CLI_ARGS = '-no-color'
         SSH_CRED_ID = 'aws-deployer-ssh-key' 
         TF_CLI_CONFIG_FILE = credentials('aws-creds')
+        BRANCH_NAME = 'dev'
     }
 
     stages {
         stage('Terraform Initialization ') {
             steps {
                 sh 'terraform init'
-                sh 'cat $BRANCH_NAME.tfvars'
+                sh 'cat $(env.BRANCH_NAME).tfvars'
             }
         }
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -var-file=$BRANCH_NAME.tfvars'
+                sh 'terraform plan -var-file=$(env.BRANCH_NAME).tfvars'
             }
         }
         stage('Validate Apply') {
@@ -33,7 +34,7 @@ pipeline {
         stage('Terraform Provisioning') {
             steps {
                 script {
-                    sh 'terraform apply -auto-approve -var-file=$BRANCH_NAME.tfvars'
+                    sh 'terraform apply -auto-approve -var-file=$(env.BRANCH_NAME).tfvars'
 
                     // 1. Extract Public IP Address of the provisioned instance
                     env.INSTANCE_IP = sh(
