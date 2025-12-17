@@ -13,12 +13,12 @@ pipeline {
         stage('Terraform Initialization ') {
             steps {
                 sh 'terraform init'
-                sh 'cat $(env.BRANCH_NAME).tfvars'
+                sh "cat ${env.BRANCH_NAME}.tfvars"
             }
         }
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -var-file=$(env.BRANCH_NAME).tfvars'
+                sh "terraform plan -var-file=${env.BRANCH_NAME}.tfvars"
             }
         }
         stage('Validate Apply') {
@@ -99,7 +99,7 @@ pipeline {
         }
         stage('Destroy') {
             steps {
-                sh 'terraform destroy -auto-approve -var-file=$BRANCH_NAME.tfvars'
+                sh "terraform destroy -auto-approve -var-file=${env.BRANCH_NAME}.tfvars"
             }
         }
     }    
@@ -111,7 +111,7 @@ pipeline {
             echo 'Success!'
         }
         failure {
-            sh 'terraform destroy -auto-approve -var-file=$BRANCH_NAME.tfvars || echo "Cleanup failed, please check manually."'
+            sh "terraform destroy -auto-approve -var-file=${env.BRANCH_NAME}.tfvars || echo \"Cleanup failed, please check manually.\""
         }
     }
 }
