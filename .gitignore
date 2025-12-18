@@ -23,8 +23,8 @@ crash.log
 
 # User SSH Keys (MUST be ignored)
 # If your key is stored inside the project demo directory, uncomment this:
-# id_rsa_project_demo 
-*.pem
+# id_rsa_project_demo
+*.pem 
 
 # Log files and temporary output
 *.log
