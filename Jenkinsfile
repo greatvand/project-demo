@@ -91,9 +91,6 @@ pipeline {
                     inventory: 'dynamic_inventory.ini', 
                     credentialsId: SSH_CRED_ID, // Key is securely injected by the plugin here
                 )
-            }
-            steps {
-                // Now you can proceed directly to Ansible, knowing SSH is almost certainly ready.
                 ansiblePlaybook(
                     playbook: 'playbooks/test-grafana.yml',
                     inventory: 'dynamic_inventory.ini', 
