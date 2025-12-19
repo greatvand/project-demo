@@ -120,9 +120,9 @@ pipeline {
         success {
             echo 'Success!'
         }
-        // failure {
-        //     sh "terraform destroy -auto-approve -var-file=${env.BRANCH_NAME}.tfvars || echo \"Cleanup failed, please check manually.\""
-        // }
+        failure {
+            sh "terraform destroy -auto-approve -var-file=${env.BRANCH_NAME}.tfvars || echo \"Cleanup failed, please check manually.\""
+        }
         aborted {
             sh "terraform destroy -auto-approve -var-file=${env.BRANCH_NAME}.tfvars || echo \"Cleanup failed, please check manually.\""
         }
